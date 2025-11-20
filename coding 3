@@ -1,0 +1,74 @@
+#include <iostream>
+#include <string>
+#include <stack>
+
+
+bool isMatch(char open, char close) {
+    return (open == '(' && close == ')') ||
+           (open == '{' && close == '}') ||
+           (open == '[' && close == ']');
+}
+
+
+bool cekValiditasKurung(const std::string& ekspresi) {
+
+    std::stack<char> tumpukanKurung;
+
+    for (char karakter : ekspresi) {
+ 
+        if (karakter == '(' || karakter == '{' || karakter == '[') {
+            tumpukanKurung.push(karakter);
+        }
+        
+
+        else if (karakter == ')' || karakter == '}' || karakter == ']') {
+            
+     
+            if (tumpukanKurung.empty()) {
+                return false;
+            }
+
+       
+            char kurungPembuka = tumpukanKurung.top();
+            
+  
+            if (isMatch(kurungPembuka, karakter)) {
+                
+                tumpukanKurung.pop();
+            }
+          
+            else {
+                return false;
+            }
+        }
+        
+    }
+
+
+    return tumpukanKurung.empty();
+}
+
+int main() {
+    std::string input1 = "(5 + 2) * {3 + [4 - 1]}";
+    std::string input2 = "(5 + 2] - 3)";
+    std::string input3 = "{ [ ( A ) ] }";
+    std::string input4 = "[[{}]";
+
+
+    std::cout << "Input  : " << input1 << std::endl;
+    std::cout << "Output : " << (cekValiditasKurung(input1) ? "Valid" : "Tidak Valid") << std::endl;
+    
+
+    std::cout << "\nInput  : " << input2 << std::endl;
+    std::cout << "Output : " << (cekValiditasKurung(input2) ? "Valid" : "Tidak Valid") << std::endl;
+    
+
+    std::cout << "\nInput  : " << input3 << std::endl;
+    std::cout << "Output : " << (cekValiditasKurung(input3) ? "Valid" : "Tidak Valid") << std::endl;
+
+
+    std::cout << "\nInput  : " << input4 << std::endl;
+    std::cout << "Output : " << (cekValiditasKurung(input4) ? "Valid" : "Tidak Valid") << std::endl;
+
+    return 0;
+}
