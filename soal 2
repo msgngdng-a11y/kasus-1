@@ -1,0 +1,46 @@
+#include <iostream>
+#include <string>
+#include <stack>
+#include <algorithm>
+
+
+std::string balikkanKalimat(const std::string& kalimat) {
+    std::stack<char> tumpukanKarakter;
+
+    for (char karakter : kalimat) {
+        tumpukanKarakter.push(karakter);
+    }
+
+
+    std::string kalimatTerbalik = "";
+    while (!tumpukanKarakter.empty()) {
+
+        char karakterTeratas = tumpukanKarakter.top();
+        
+
+        kalimatTerbalik += karakterTeratas;
+        
+
+        tumpukanKarakter.pop();
+    }
+
+    return kalimatTerbalik;
+}
+
+int main() {
+    std::string inputKalimat;
+
+
+    std::cout << "Masukkan sebuah kalimat: ";
+
+    std::getline(std::cin, inputKalimat);
+
+
+    std::string outputKalimat = balikkanKalimat(inputKalimat);
+
+
+    std::cout << "\nInput  : " << inputKalimat << std::endl;
+    std::cout << "Output : " << outputKalimat << std::endl;
+
+    return 0;
+}
