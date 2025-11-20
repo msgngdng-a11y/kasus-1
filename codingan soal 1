@@ -1,0 +1,179 @@
+#include <iostream>
+#include <limits> 
+
+using namespace std;
+
+class Stack {
+private:
+    int *arr;        
+    int top;         
+    int capacity;    
+
+public:
+    Stack(int size) {
+        capacity = size;
+        arr = new int[capacity];
+        top = -1; 
+    }
+
+
+    ~Stack() {
+        delete[] arr;
+    }
+
+
+    void push(int x) {
+        if (isFull()) {
+            cout << "\n❌ ERROR: Stack Penuh! Tidak dapat melakukan Push.\n";
+            return;
+        }
+        cout << "\nMenambahkan " << x << " ke dalam Stack.\n";
+        arr[++top] = x;
+    }
+
+    int pop() {
+        if (isEmpty()) {
+            cout << "\n❌ ERROR: Stack Kosong! Tidak dapat melakukan Pop.\n";
+
+            return -1; 
+        }
+        cout << "\nMenghapus elemen dari puncak Stack: " << arr[top] << "\n";
+        return arr[top--];
+    }
+
+    int peek() {
+        if (!isEmpty()) {
+            return arr[top];
+        } else {
+            cout << "\n❌ ERROR: Stack Kosong! Tidak ada elemen untuk di Peek.\n";
+            return -1; 
+        }
+    }
+
+    bool isEmpty() {
+        return top == -1;
+    }
+
+    bool isFull() {
+        return top == capacity - 1;
+    }
+
+    int size() {
+        return top + 1;
+    }
+
+    void display() {
+        if (isEmpty()) {
+            cout << "\nStack saat ini KOSONG.\n";
+            return;
+        }
+        cout << "\n--- Tampilan Stack ---\n";
+        for (int i = top; i >= 0; i--) {
+            if (i == top) {
+                cout << "  [ " << arr[i] << " ] <-- TOP\n";
+            } else {
+                cout << "  [ " << arr[i] << " ]\n";
+            }
+        }
+        cout << "----------------------\n";
+    }
+};
+
+
+void displayMenu() {
+    cout << "\n===== MENU OPERASI STACK =====\n";
+    cout << "1. Push (Menambahkan Elemen)\n";
+    cout << "2. Pop (Menghapus Elemen Teratas)\n";
+    cout << "3. Peek (Melihat Elemen Teratas)\n";
+    cout << "4. IsEmpty (Cek Stack Kosong)\n";
+    cout << "5. Size (Jumlah Elemen)\n";
+    cout << "6. Display (Tampilkan Stack)\n";
+    cout << "7. Exit (Keluar Program)\n";
+    cout << "------------------------------\n";
+    cout << "Pilih Opsi (1-7): ";
+}
+
+void handleInvalidInput() {
+    cin.clear(); 
+    
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    cout << "\n⚠️ Input tidak valid. Harap masukkan angka sesuai menu.\n";
+}
+
+int main() {
+    int capacity;
+    cout << "Masukkan kapasitas maksimum Stack: ";
+    
+   
+    while (!(cin >> capacity) || capacity <= 0) {
+        handleInvalidInput();
+        cout << "Masukkan kapasitas maksimum Stack (harus angka positif): ";
+    }
+
+
+    Stack myStack(capacity);
+    cout << "\n✅ Stack dengan kapasitas " << capacity << " berhasil dibuat.\n";
+    
+
+    int choice;
+    do {
+        myStack.display(); 
+        displayMenu();
+
+        
+        if (!(cin >> choice)) {
+            handleInvalidInput();
+            choice = 0; 
+            continue;
+        }
+
+        switch (choice) {
+            case 1: { 
+                int value;
+                cout << "Masukkan nilai yang akan di-Push: ";
+                if (cin >> value) {
+                    myStack.push(value);
+                } else {
+                    handleInvalidInput();
+                }
+                break;
+            }
+            case 2: { 
+                int poppedValue = myStack.pop();
+               
+                break;
+            }
+            case 3: { 
+                int topElement = myStack.peek();
+                if (topElement != -1) {
+                    cout << "\nElemen paling atas (Peek): " << topElement << "\n";
+                }
+                break;
+            }
+            case 4: { 
+                if (myStack.isEmpty()) {
+                    cout << "\n✅ Stack saat ini KOSONG.\n";
+                } else {
+                    cout << "\nStack saat ini TIDAK KOSONG.\n";
+                }
+                break;
+            }
+            case 5: { 
+                cout << "\nJumlah elemen Stack saat ini: " << myStack.size() << "\n";
+                break;
+            }
+            case 6: { 
+                
+                break;
+            }
+            case 7: { 
+                cout << "\n👋 Terima kasih. Program selesai.\n";
+                break;
+            }
+            default:
+                cout << "\n⚠️ Pilihan tidak valid. Silakan pilih opsi 1 sampai 7.\n";
+        }
+    } while (choice != 7);
+
+    return 0;
+}
